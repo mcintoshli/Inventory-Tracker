@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import backend.demo.entity.Item;
 import backend.demo.services.InventoryService;
+import backend.demo.services.ItemService;
 
 /**
  * Date: 8/19/2024
@@ -23,7 +24,7 @@ import backend.demo.services.InventoryService;
 public class InventoryController {
 
 	@Autowired
-	private InventoryService invServ;
+	private ItemService itemServ;
 	
 	
 	/**
@@ -36,7 +37,7 @@ public class InventoryController {
 	@PostMapping("/addItem")
 	public ResponseEntity<?> addNewItem(@RequestBody Item item){
 		try {
-			invServ.saveItem(item);
+			itemServ.saveItem(item);
 		} catch (Exception e) {
 			return ResponseEntity.internalServerError().build();
 		}
@@ -54,7 +55,7 @@ public class InventoryController {
 	@GetMapping("/getItemDetails")
 	public ResponseEntity<Item> getItemDetails(@RequestParam String upcCode){
 		try {
-			return ResponseEntity.ok(invServ.getItemDetails(upcCode));
+			return ResponseEntity.ok(itemServ.getItemDetails(upcCode));
 		} catch (NotFoundException nf) {
 			return ResponseEntity.notFound().build();
 		} catch (Exception e) {

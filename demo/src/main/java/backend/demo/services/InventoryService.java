@@ -7,41 +7,23 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 
+import backend.demo.entity.Inventory;
+import backend.demo.entity.Inventory.BucketStatus;
+import backend.demo.entity.InventoryId;
 import backend.demo.entity.Item;
+import backend.demo.repository.InventoryRepository;
 import backend.demo.repository.ItemRepository;
 
 @Service
 public class InventoryService {
 
 	@Autowired
-	private ItemRepository itemRepo;
+	private InventoryRepository invRepo;
 	
-	
-	/**
-	 * Attempts to save an item to the db
-	 * Date: 8/20/2024
-	 * @author LiamMcIntosh
-	 * @param item
-	 * @return
-	 */
-	public void saveItem(Item item) {
-		itemRepo.save(item);
-	}
-
-	/**
-	 * Attempts to get an item from the db
-	 * Date: 8/20/2024
-	 * @author LiamMcIntosh
-	 * @param upcCode
-	 * @return item
-	 */
-	public Item getItemDetails(String upcCode) throws NotFoundException {
-		Optional<Item> item = itemRepo.findById(upcCode);
+	public Inventory newItemAdded(Item item) {
+		Inventory inventory = invRepo.save(new Inventory(item.getUpcCode(), BucketStatus.InStock, 100));
 		
-		if(item.isPresent())
-			return item.get();
-		
-		throw new NotFoundException();
+		return inventory;
 	}
 	
 }
