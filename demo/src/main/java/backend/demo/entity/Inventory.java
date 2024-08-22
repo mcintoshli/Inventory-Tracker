@@ -2,35 +2,25 @@ package backend.demo.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 
 
 @Entity
 @Table(name="INVENTORY")
-@IdClass(InventoryId.class)
 public class Inventory {
 
 	@Id
 	private String upcCode;
-	@Id
-	private BucketStatus bucket;
-	
-	private int count;
-	
+	private int stockCount;
+	private int returnedCount;
+		
 	public Inventory() {}
 	
-	public Inventory(String upcCode, BucketStatus bucket, int count) {
+	public Inventory(String upcCode, int stockCount) {
 		super();
 		this.upcCode = upcCode;
-		this.bucket = bucket;
-		this.count = count;
-	}
-		
-	public enum BucketStatus {
-		InStock,
-		Sold,
-		Returned
+		this.stockCount = stockCount;
+		this.returnedCount = 0;
 	}
 
 	public String getUpcCode() {
@@ -41,19 +31,21 @@ public class Inventory {
 		this.upcCode = upcCode;
 	}
 
-	public BucketStatus getBucket() {
-		return bucket;
+	public int getStockCount() {
+		return stockCount;
 	}
 
-	public void setBucket(BucketStatus bucket) {
-		this.bucket = bucket;
+	public void setStockCount(int stockCount) {
+		this.stockCount = stockCount;
 	}
 
-	public int getCount() {
-		return count;
+	public int getReturnedCount() {
+		return returnedCount;
 	}
 
-	public void setCount(int count) {
-		this.count = count;
+	public void setReturnedCount(int returnedCount) {
+		this.returnedCount = returnedCount;
 	}
+
+	
 }
